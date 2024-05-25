@@ -60,6 +60,40 @@ initialLoad()
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
+ breedSelect.addEventListener("change", selectedBreed)
+
+        async function selectedBreed(e) {
+            Carousel.clear()
+            const breedSelect = document.querySelector("#breedSelect");
+            // console.log(breedSelect)
+            const selectElement = e.target;
+            // console.log(`breed target: ${e.target}`)
+            const selectedValue = selectElement.value;
+            // console.log(selectedValue);
+
+            const response = await fetch(url, {
+                headers: {
+                    'x-api-key': api_key
+                }
+            })
+            const catBreed = await response.json();
+
+
+            for (let i = 0; i < catBreed.length; i++) {
+                const breedId = catBreed[i].id
+                if (breedId == selectedValue) {
+                    const imgSrc = catBreed[i].image.url
+                    const imgAlt = catBreed[i].name
+                    const imgId = catBreed[i].image.id
+                    const element = Carousel.createCarouselItem(imgSrc, imgAlt, imgId)
+                    Carousel.appendCarousel(element)
+                    infoDump.innerHTML = catBreed[i].description
+                }
+
+            }
+            Carousel.start()
+        }
+ 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
@@ -113,6 +147,7 @@ initialLoad()
  */
 export async function favourite(imgId) {
   // your code here
+  console.log(`Image ${imgId} marked as favourite.`);
 }
 
 /**
