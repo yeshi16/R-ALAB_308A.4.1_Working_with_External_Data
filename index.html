@@ -23,11 +23,12 @@
     ></script>
 
     <!-- Axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
 
     <!-- Our Scripts -->
-    <script type="text/javascript" src="./Carousel.js"></script>
-    <script type="text/javascript" src="./index.js"></script>
+    <!-- <script type="module" src="./Carousel.js"></script> -->
+    <script type="module" src="./index.js"></script>
   </head>
 
   <body>
@@ -38,10 +39,11 @@
     <!-- Breed Selection -->
     <h2 class="w-100 text-center mt-5">Select a Breed</h2>
     <select
-      id="breedSelect"
+      id="breedSelected"
       style="width: 300px;"
       class="form-select form-select-lg my-1 mx-auto"
       aria-label="form-select-lg"
+      
     >
     </select>
     <div class="d-flex">

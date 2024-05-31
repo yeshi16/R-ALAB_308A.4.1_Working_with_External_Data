@@ -1,8 +1,9 @@
+// import axios from "axios";
 import * as Carousel from "./Carousel.js";
-import axios from "axios";
+// import axios from "axios";
 
 // The breed selection input element.
-const breedSelect = document.getElementById("breedSelect");
+const breedSelected = document.getElementById("breedSelected");
 // The information section div element.
 const infoDump = document.getElementById("infoDump");
 // The progress bar div element.
@@ -23,27 +24,26 @@ const API_KEY = "live_EGbzb0OYYbgmBwH76vL1d92AMdqXGhvYplVPMOLhzP4jaoL5kl9jEeCT9y
  * This function should execute immediately.
  */
 
-async function initialLoad() {
+// async function initialLoad() {
   
-  const response = await fetch(url, {
-    headers: {
-      'x-api-key': API_KEY 
-    }
-  })
-  const catBreed = await response.json();
-  // console.log(jsonData)
-  // console.log(jsonData[0].name)
+//   const response = await fetch(url, {
+//     headers: {
+//       'x-api-key': API_KEY 
+//     }
+//   })
+//   const catBreed = await response.json();
+//   // console.log(catBreed)
 
-  for (let i = 0; i < catBreed.length; i++) {
-    const breedId = catBreed[i].id
-    const breedName = catBreed[i].name
-    const options = document.createElement('option')
-    options.setAttribute("value", breedId)
-    options.textContent = breedName
-    breedSelect.appendChild(options)
-  }
-}
-initialLoad()
+//   for (let i = 0; i < catBreed.length; i++) {
+//     const breedId = catBreed[i].id
+//     const breedName = catBreed[i].name
+//     const options = document.createElement('option')
+//     options.setAttribute("value", breedId)
+//     options.textContent = breedName
+//     breedSelect.appendChild(options)
+//   }
+// }
+// initialLoad()
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -60,24 +60,90 @@ initialLoad()
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
- breedSelect.addEventListener("change", selectedBreed)
+//  breedSelect.addEventListener("change", selectedBreed)
 
-        async function selectedBreed(e) {
+        // async function selectedBreed(e) {
+        //     Carousel.clear()
+          
+        //     const selectElement = e.target;
+        //     // console.log(`breed target: ${e.target}`)
+        //     const selectedValue = selectElement.value;
+        //     // console.log(selectedValue);
+
+        //     const response = await fetch(url, {
+        //         headers: {
+        //             'x-api-key': API_KEY
+        //         }
+        //     })
+        //     const catBreed = await response.json();
+        //     // console.log(catBreed)
+
+        //     for (let i = 0; i < catBreed.length; i++) {
+        //         const breedId = catBreed[i].id
+        //         if (breedId == selectedValue) {
+        //             const imgSrc = catBreed[i].image.url
+        //             const imgAlt = catBreed[i].name
+        //             const imgId = catBreed[i].image.id
+        //             const element = Carousel.createCarouselItem(imgSrc, imgAlt, imgId)
+        //             Carousel.appendCarousel(element)
+        //             infoDump.innerHTML = catBreed[i].description
+        //         }
+
+        //     }
+        //     Carousel.start()
+        // }
+ 
+/**
+ * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
+ */
+/**
+ * 4. Change all of your fetch() functions to axios!
+ * - axios has already been imported for you within index.js.
+ * - If you've done everything correctly up to this point, this should be simple.
+ * - If it is not simple, take a moment to re-evaluate your original code.
+ * - Hint: Axios has the ability to set default headers. Use this to your advantage
+ *   by setting a default header with your API key so that you do not have to
+ *   send it manually with all of your requests! You can also set a default base URL!
+ */
+ async function initialLoadAxios() {
+  
+  const response = await axios.get(url, {
+    headers: {
+      'x-api-key': API_KEY 
+    }
+  })
+  const catBreed = response.data;
+  // console.log(catBreed)
+
+  for (let i = 0; i < catBreed.length; i++) {
+    const breedId = catBreed[i].id
+    const breedName = catBreed[i].name
+    const options = document.createElement('option')
+    options.setAttribute("value", breedId)
+    options.textContent = breedName
+    breedSelected.appendChild(options)
+  }
+}
+initialLoadAxios()
+
+
+breedSelected.addEventListener("change", selectedBreedAxios)
+
+        async function selectedBreedAxios(e) {
             Carousel.clear()
-            const breedSelect = document.querySelector("#breedSelect");
-            // console.log(breedSelect)
+          
             const selectElement = e.target;
             // console.log(`breed target: ${e.target}`)
             const selectedValue = selectElement.value;
             // console.log(selectedValue);
 
-            const response = await fetch(url, {
-                headers: {
-                    'x-api-key': api_key
-                }
+            const response = await axios.get(url, {
+              headers: {
+                'x-api-key': API_KEY 
+              }
             })
-            const catBreed = await response.json();
-
+            const catBreed = response.data;
+            console.log(catBreed)
 
             for (let i = 0; i < catBreed.length; i++) {
                 const breedId = catBreed[i].id
@@ -94,24 +160,21 @@ initialLoad()
             Carousel.start()
         }
  
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-/**
- * 4. Change all of your fetch() functions to axios!
- * - axios has already been imported for you within index.js.
- * - If you've done everything correctly up to this point, this should be simple.
- * - If it is not simple, take a moment to re-evaluate your original code.
- * - Hint: Axios has the ability to set default headers. Use this to your advantage
- *   by setting a default header with your API key so that you do not have to
- *   send it manually with all of your requests! You can also set a default base URL!
- */
+ 
+
 /**
  * 5. Add axios interceptors to log the time between request and response to the console.
  * - Hint: you already have access to code that does this!
  * - Add a console.log statement to indicate when requests begin.
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
+
+ axios.interceptors.request.use( req => {
+  req.meta = req.meta || {}
+  req.meta.requestStartedAt = new Date().getTime();
+  console.log(req)
+});
+
 
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
